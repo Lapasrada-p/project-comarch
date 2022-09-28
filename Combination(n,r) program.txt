@@ -1,0 +1,21 @@
+Combination(n,r) program
+2 main function
+    1) sub
+    2) factorail
+
+//This code below is just psudocode!!!
+
+sub:
+    MOV x5 , 7                  // x5 = 7
+    MOV x6 , 2                  // x6 = 2
+    SUB x10 , x5 ,x6            // x10 = x5 - x6
+
+factorail
+
+        MOV x28 , 5             // x28 = 5
+        MOV x29 , x28           // x29 = 5
+fact:   DEC x29                 // x29 = 4 (x29-=1)
+        MUL x31 , x29 , x28     // x31 = x29 * x28 (5*4)
+        BEQ x29 , 0 , exit      // if x29 = 0 go to exit
+        BAL fact                // if x29 != 0 go to fact
+exit:
