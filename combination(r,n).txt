@@ -5,10 +5,18 @@ Combination(n,r) program
 
 //This code below is just psudocode!!!
 
-sub:
-    MOV x5 , 7                  // x5 = 7
-    MOV x6 , 2                  // x6 = 2
-    SUB x10 , x5 ,x6            // x10 = x5 - x6
+Sub function
+    lw  0 1 x1                  // @1 = 7
+    lw  0 2 x2                  // @2 = 2
+    add 1 1 2            // x1 = 7 - 2
+    ________________________________________________________
+    
+    x1      .fill       7
+    x2      .fill       2
+    
+Multiple function
+    
+    waiting
 
 factorail
 
