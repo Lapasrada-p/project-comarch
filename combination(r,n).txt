@@ -4,26 +4,38 @@ Combination(n,r) program
     2) factorail
 
 //This code below is just psudocode!!!
+==============
+ Sub function
+==============
 
-Sub function
-    lw  0 1 x1                  // @1 = 7
-    lw  0 2 x2                  // @2 = 2
-    add 1 1 2            // x1 = 7 - 2
+    lw      0 1 x1                  // @1 = 7
+    lw      0 2 x2                  // @2 = 2
+    add     1 1 2                   // x1 = 7 - 2
     ________________________________________________________
     
     x1      .fill       7
     x2      .fill       2
-    
-Multiple function
+
+===================  
+ Multiple function
+===================
     
     waiting
 
-factorail
+===========
+ factorail
+===========
 
-        MOV x28 , 5             // x28 = 5
-        MOV x29 , x28           // x29 = 5
-fact:   DEC x29                 // x29 = 4 (x29-=1)
-        MUL x31 , x29 , x28     // x31 = x29 * x28 (5*4)
-        BEQ x29 , 0 , exit      // if x29 = 0 go to exit
-        BAL fact                // if x29 != 0 go to fact
-exit:
+    ld      0 11 arg                // @11 = 5
+    add     12 11 zero              // @12 = 5
+fact:
+    add     0 12 DEC                // @12 = 4
+    ld      0 13 MUL                // do multiple function @13 = 5 * 4
+    jalr    13 7 fact               //repeat
+    ________________________________________________________
+
+    arg     .fill       5           
+    zero    .fill       0
+    DEC     .fill       -1
+
+        
