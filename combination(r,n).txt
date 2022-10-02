@@ -8,9 +8,9 @@ Combination(n,r) program
  Sub function
 ==============
 
-    lw      0 1 x1                  // @1 = 7
-    lw      0 2 x2                  // @2 = 2
-    add     1 1 2                   // x1 = 7 - 2
+    lw      0 1 x1                   // @1 = 7
+    lw      0 2 x2                   // @2 = 2
+    add     1 1 2                    // x1 = 7 - 2
     ________________________________________________________
     
     x1      .fill       7
@@ -20,22 +20,43 @@ Combination(n,r) program
  Multiple function
 ===================
     
-    waiting
+    sw      7   8   stack
+    add     7   5   7                  //increment stack pointer
+    sw      7   1   7                  //save inputN to stack
+    add     1   1   1                  //compute 2*input
 
 ===========
  factorail
 ===========
 
-    ld      0 11 arg                // @11 = 5
-    add     12 11 zero              // @12 = 5
+    lw      0  11 arg                 // @11 = 5
+    add    12  11 zero                // @12 = 5
 fact:
-    add     0 12 DEC                // @12 = 4
-    ld      0 13 MUL                // do multiple function @13 = 5 * 4
-    jalr    13 7 fact               //repeat
+    add     0  12 DEC                 // @12 = 4
+    lw      0  13 MUL                 // do multiple function @13 = 5 * 4
+    jalr   13   7 fact                //repeat
     ________________________________________________________
 
     arg     .fill       5           
     zero    .fill       0
     DEC     .fill       -1
 
-        
+    _____________________________________________________________________________________________________
+
+start:
+
+    lw      0   1   inputN
+    lw      0   2   inputR
+    beq     0   2   end                // if r == 0 go to end of the program
+    beq     1   2   end                // if n == r go to end of the program
+    lw      0   11  1                  // $11 = $1
+    add     0   11  neg1               // $11 = InputN - 1
+    lw      0   12  2                  // $12 = $2
+    add     0   12  neg1               // $12 = InputR - 1
+    lw      0   8   CombAdr            // prepare to call Comb function $8 = Comb function
+    jalr    8   4                      //$4 is return address and call comb function
+Comb:
+    lw      0   27  11
+    lw      0   28  2
+    lw      0   9   factAdr
+    jalr    9   15   
