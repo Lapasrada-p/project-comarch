@@ -252,7 +252,8 @@ for i in range(len(assem)):
     # print(dec[i])
     #write decimal in file for simulator
     w.write(str(dec[i]))
-    w.write('\n')
+    if i != len(assem)-1:
+        w.write('\n')
     
 # print(label)
 w.close()
