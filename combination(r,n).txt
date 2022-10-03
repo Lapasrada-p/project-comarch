@@ -59,11 +59,16 @@ Comb:
     lw      0   27  11                 // @27 = @11
     lw      0   28  2                  // @28 = @2
     lw      0   9   factAdr            // @9 เก็บ factorail 
-    jalr    9   15                     // call factorail
+    jalr    9   5                      // $5 is return address and call factorail
     .
     .
     .
 fact:
-    lw      
+    lw      0   29  argAdr
+    add     0   30  neg1
+    lw      0   10  MUL
+    jalr    10  6                      // $6 is return address and call Multiple
+    beq     0   30  endfact            // if @30 = 0 go out of the loop
+    beq     0   0   fact               // if not repeat
     
     
