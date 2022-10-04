@@ -153,12 +153,12 @@ for i in range(len(assem)): #loop assemble code
             rt.append(None)
             rd.append(None)
             # print(label)
-            if x[0] in rd:
-                index = rd.index(label[i])
-                rd[index] = x[2]
-                # print(rd[index])
-                f.append(x[2])
-            elif x[2] in label:
+            if x[0] in rd:  #if label have the same name in rd
+                index = rd.index(x[0])   #find index of the label in rd[]
+                rd[index] = i   #set rd[index] to address
+                # print("index", index)
+                f.append(x[2]) 
+            elif x[2] in label: #if  after .fill is label
                 index = label.index(x[2])
                 f.append(index)
             else:
