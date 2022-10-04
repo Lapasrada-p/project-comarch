@@ -1,14 +1,19 @@
+import sys
 
-f = open("tester.txt", "r")
+fname = "tester.txt"
 assem = []
-if(f== None):
-    print("error: can't open file", f)
-else:
+
+try:
+    f = open(fname, 'r')
+except OSError:
+    print ("Could not open/read file:", fname)
+    sys.exit(1) #catch error: if it doesn't have a file, exit 1
+
+with f:
     for x in f:
         assem.append(x)
         # print(x)
-    f.close
-
+    f.close()
 
 machine_c = []
 dec = []
@@ -257,3 +262,5 @@ for i in range(len(assem)):
     
 # print(label)
 w.close()
+
+sys.exit(0)
