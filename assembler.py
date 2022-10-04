@@ -1,4 +1,5 @@
 import sys
+#### Still don't have checking undefine label ####
 
 fname = "tester.txt"
 assem = []
@@ -27,7 +28,6 @@ f = []
 
 for i in range(len(assem)): #loop assemble code
     x = assem[i].split() 
-    n = 0
 
     if x[0] in ins: #In case code doesn't have label
         if x[0] =='add' or x[0] =='nand' or x[0] =='lw' or x[0] =='sw' or x[0] =='beq':
@@ -86,10 +86,10 @@ for i in range(len(assem)): #loop assemble code
         
         label.append(None) #Set label[i] is null
 
-    elif len(x[0]) >6 or x[0][0].isdigit() : #Check label
-        print("error: Label error")
+    elif len(x[0]) >6 or x[0][0].isdigit() or x[0] in label: #Check label
+        print("Error: Label error")
         sys.exit(1)
-        # break
+
     else:
         label.append(x[0])
         if x[1] =='add' or x[1] =='nand' or x[1] =='lw' or x[1] =='sw' or x[1] =='beq':
@@ -153,19 +153,19 @@ for i in range(len(assem)): #loop assemble code
             rt.append(None)
             rd.append(None)
             # print(label)
-            if x[0] in rd:  #if label have the same name in rd
-                index = rd.index(x[0])   #find index of the label in rd[]
-                rd[index] = i   #set rd[index] to address
+            if x[0] in rd:      #if label have the same name in rd
+                index = rd.index(x[0])      #find index of the label in rd[]
+                rd[index] = i       #set rd[index] to address
                 # print("index", index)
                 f.append(x[2]) 
-            elif x[2] in label: #if  after .fill is label
+            elif x[2] in label:     #if  after .fill is in label
                 index = label.index(x[2])
                 f.append(index)
             else:
                 f.append(x[2])
-            
-            
-        n = 1
+        else:
+            print("Opcode Error: Do not have this instruction")
+            sys.exit(1)
 
 
 
@@ -188,7 +188,7 @@ for i in range(len(rd)):
 w = open("input_simulator.txt","w")     #open filewriting for simulator
 
 
-for i in range(len(assem)):
+for i in range(len(assem)): #loop for generate bin and dec
     # print(i)
     isFill = False
     # R-type
@@ -205,7 +205,10 @@ for i in range(len(assem)):
     elif (opcode[i] == '010' or opcode[i] == '011' or opcode[i] == '100') :
         rs[i] =  bin(int(rs[i]))[2:].zfill(3)
         rt[i] =  bin(int(rt[i]))[2:].zfill(3)
-        if(int(rd[i])<0):
+        if int(rd[i])>32767 or int(rd[i])<-32768:
+            print(f"Error: In address {i}, offsetField is more than 16 bit")
+            sys.exit(1)
+        elif(int(rd[i])<0):
             rd[i] =  bin(int(rd[i])&0b1111111111111111)[2:].zfill(16)
         else:     
             rd[i] =  bin(int(rd[i]))[2:].zfill(16)
@@ -225,14 +228,13 @@ for i in range(len(assem)):
     
     # O-Type
     elif (opcode[i] == '110' or opcode[i] == '111'):
-        m=opcode[i] + '0000000000000000000000'
+        m= opcode[i] + '0000000000000000000000'
 
     else:
         # print(f)
         isFill = True
         m = f[i]
 
-    print(rs[i],rt[i],rd[i])   #easy for checking
 
     machine_c.append((m)) 
     if(isFill == False):
@@ -241,16 +243,21 @@ for i in range(len(assem)):
         decimal = machine_c[i]
     dec.append(decimal)
     
+    
+    
+# print(label)
+
+
+#Printing
+for i in range(len(assem)):
+    print(rs[i],rt[i],rd[i])   #easy for checking
     print(f"(address {i}): {dec[i]}" ) #print decimal of code line by line
     
-    # print(dec[i])
 
     #write decimal in file for simulator
     w.write(str(dec[i]))
     if i != len(assem)-1:
         w.write('\n')
-    
-# print(label)
-w.close()
 
-sys.exit(0)
+w.close()
+sys.exit(0) #end program
