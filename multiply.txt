@@ -1,4 +1,4 @@
-        lw      0       1       product         x1 = product
+        lw      0       1       prod            x1 = product
         lw      0       2       mplier          x2 = mplier
         lw      0       3       mcand           x3 = mcand
         lw      0       4       zero            x4 = zero
@@ -15,7 +15,7 @@ shift   add     3       3       3               mcand shift left 1 bit
 end     halt
 mcand   .fill   32766
 mplier  .fill   10383
-product .fill   0
+prod    .fill   0
 bcount  .fill   15
 zero    .fill   0
 one     .fill   1
