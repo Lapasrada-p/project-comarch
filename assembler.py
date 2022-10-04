@@ -152,9 +152,18 @@ for i in range(len(assem)): #loop assemble code
             rs.append(None)
             rt.append(None)
             rd.append(None)
-            index = rd.index(label[i])
-            rd[index] = x[2]
-            f.append(x[2])
+            # print(label)
+            if x[0] in rd:
+                index = rd.index(label[i])
+                rd[index] = x[2]
+                # print(rd[index])
+                f.append(x[2])
+            elif x[2] in label:
+                index = label.index(x[2])
+                f.append(index)
+            else:
+                f.append(x[2])
+            
             
         n = 1
 
