@@ -1,13 +1,21 @@
-f = open("input_simulator.txt", "r")
+import sys
+
 fromAssem = []
-if(f== None):
-    print("error: can't open file", f)
-else:
+fname = "input_simulator.txt"
+
+try:
+    f = open(fname, 'r')
+except OSError:
+    print ("Could not open/read file:", fname)
+    sys.exit(1) #catch error: if it doesn't have a file, exit 1
+
+with f:
     for x in f:
         fromAssem.append(x)
         # print(x)
-    f.close
-  
+    f.close()
+
+
 # print(fromAssem)
 dec = []
 # #convert dec to bin
@@ -30,15 +38,14 @@ print(machine_c)
 
 reg = [0,0,0,0,0,0,0,0] #set all reg to 0 in first
 
+stage = []
+stage.append(1) #Just for testing printer
 
 #printing
 #output
 for i in range(len(fromAssem)): #loop showing what's inside mem
     print(f"memory[{i}]={fromAssem[i]}")
 
-
-stage = []
-stage.append(1) #Just for testing printer
 
 for i in range (len(stage)):
     print("@@@")
@@ -52,4 +59,6 @@ for i in range (len(stage)):
         print(f"\t\treg[ {i} ] {reg[i]}")
 print("end state")
 print("")
+
+sys.exit(0) #end program
 
