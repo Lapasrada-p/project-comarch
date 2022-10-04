@@ -15,8 +15,8 @@ Comb1:  lw      0   5   pos1                    //stack pointer
         beq     27  28  loop                    //if n == r go to loop
         add     27  0   1                       //if not return n = 1
         add     28  0   1                       //if not return r = 1
-        คืนค่า
-        jalr    0   7
+        lw      0   10                          //prepare to call loop
+        jalr    10  11                          //call loop
 Comb2:  lw      0   5   pos1                    //stack pointer
         lw      0   1   InputR                  //@1 = InputR
         lw      0   2   InputN                  //@2 = inputN
@@ -26,20 +26,22 @@ Comb2:  lw      0   5   pos1                    //stack pointer
         sw      7   2   stack                   //put @2 in stack
         add     27  1   neg1                    //@27 = @1 - 1
         add     28  2   neg1                    //@28 = @2 - 1
-        beq     27  0   loop                    //if n == 0 go to loop
-        beq     27  28  loop                    //if n == r go to loop
+        beq     27  0   loop2                   //if n == 0 go to loop
+        beq     27  28  loop2                   //if n == r go to loop
         add     27  0   1                       //if not return n = 1
         add     28  0   1                       //if not return r = 1
-        คืนค่า
         jalr    0   7
-loop    beq     
-        add     27  27  neg1                    //@27 = @27 - 1
+        halt                                    //end
+loop:   add     27  27  neg1                    //@27 = @27 - 1
+        lw      0   12                          //prepare to call Comb2
+        jalr    12  13                          //Call Comb2
+        add     11  11  13                      //comb(n-1,r)+ comb(n-1,r-1)
+        jalr    0   7
+loop2:  add     27  27  neg1                    //@27 = @27 - 1
         add     28  28  neg1                    //@28 = @28 - 1
-        call Comb1 ให้ @10 เก็บ
-        beq
-        call Comb2 ให้ @11 เก็บ
-        pop ออก
-        add     10  10  11                      //comb(n-1,r)+ comb(n-1,r-1)
+        lw      0   12                          //prepare to call Comb2
+        jalr    12  13                          //Call Comb2
+        add     11  11  13                      //comb(n-1,r)+ comb(n-1,r-1)
         jalr    0   7
 
     
