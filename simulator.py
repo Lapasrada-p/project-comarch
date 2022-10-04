@@ -52,3 +52,4 @@ for i in range (len(stage)):
         print(f"\t\treg[ {i} ] {reg[i]}")
 print("end state")
 print("")
+

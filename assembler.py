@@ -154,7 +154,7 @@ for i in range(len(assem)): #loop assemble code
         n = 1
 
 
-
+w = open("input_simulator.txt","w")     #open filewriting for simulator
 
 for i in range(len(assem)):
     # print(i)
@@ -248,5 +248,12 @@ for i in range(len(assem)):
     dec.append(decimal)
     
     print(f"(address {i}): {dec[i]}" ) #print decimal of code line by line
-
+    
+    # print(dec[i])
+    #write decimal in file for simulator
+    w.write(str(dec[i]))
+    if i != len(assem)-1:
+        w.write('\n')
+    
 # print(label)
+w.close()
