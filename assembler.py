@@ -1,7 +1,7 @@
 import sys
 #### Still don't have checking undefine label ####
 
-fname = "tester.txt"
+fname = "multiply.txt"
 assem = []
 
 try:
@@ -178,10 +178,8 @@ for i in range(len(rd)):
                         ind = label.index(rd[i])
                         # print("ind",ind)
                         # print("i",i)
-                        if ind > i:
-                            rd[i] = ind-i+1
-                        else:   
-                            rd[i] = ind-i-1
+                        rd[i] = ind - i -1 
+                       
                         # print("rd",rd[i])
 
 
