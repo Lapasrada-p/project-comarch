@@ -30,7 +30,7 @@ for i in range(len(fromAssem)):
 
 machine_c = []
 for i in range(len(dec)):
-    b = bin(dec[0]).replace("0b", "")
+    b = bin(dec[i]).replace("0b", "").zfill(25) #แก้ให้เป็น 25 bit
     machine_c.append(b)
    
 print(dec) 
@@ -40,6 +40,38 @@ reg = [0,0,0,0,0,0,0,0] #set all reg to 0 in first
 
 stage = []
 stage.append(1) #Just for testing printer
+
+
+for i in machine_c:
+    #add
+    if i[0:3] == '000' :
+        print("add")
+    #nand
+    elif i[0:3] == '001' :
+        print("nand")
+    #lw
+    elif i[0:3] == '010':
+        print("lw")
+    #sw
+    elif i[0:3] == '011':
+        print("sw")
+    #beq    
+    elif i[0:3] == '100':
+        print("beq")
+    #jalr
+    elif i[0:3] == '101':
+        print("jalr")
+    #halt
+    elif i[0:3] == '110':
+        print("halt")
+        break;
+    #noop
+    elif i[0:3] == '111':
+        #Do nothing
+        print("noop")
+
+
+    
 
 #printing
 #output

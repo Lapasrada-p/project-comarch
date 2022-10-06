@@ -1,7 +1,7 @@
 import sys
-#### Still don't have checking undefine label ####
+#### Still don't have checking reg after instruct ####
 
-fname = "multiply.txt"
+fname = "tester.txt"
 assem = []
 
 try:
@@ -28,6 +28,7 @@ f = []
 
 for i in range(len(assem)): #loop assemble code
     x = assem[i].split() 
+    
 
     if x[0] in ins: #In case code doesn't have label
         if x[0] =='add' or x[0] =='nand' or x[0] =='lw' or x[0] =='sw' or x[0] =='beq':
@@ -89,7 +90,9 @@ for i in range(len(assem)): #loop assemble code
     elif len(x[0]) >6 or x[0][0].isdigit() or x[0] in label: #Check label
         print("Error: Label error")
         sys.exit(1)
-
+    elif(len(x)) == 1 :
+        print("Error: Label undefine")
+        sys.exit(1)
     else:
         label.append(x[0])
         if x[1] =='add' or x[1] =='nand' or x[1] =='lw' or x[1] =='sw' or x[1] =='beq':
@@ -148,6 +151,11 @@ for i in range(len(assem)): #loop assemble code
         elif x[1] == '.fill':
             # print(rd)
             # print(label)
+            # print(len(x))
+            if(len(x) < 3):
+                print("Error")
+                sys.exit(1)
+
             opcode.append(None)
             rs.append(None)
             rt.append(None)
