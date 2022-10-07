@@ -1,48 +1,38 @@
-Combination(n,r) program
-
-//This code below is just psudocode!!!
-
-Comb1:  lw      0   5   pos1                    //stack pointer
-        lw      0   1   InputR                  //@1 = InputR
-        lw      0   2   InputN                  //@2 = inputN
-        add     7   5   7                       //increment stack pointer
-        sw      7   1   stack                   //put @1 in stack
-        add     7   5   7                       //increment stack pointer
-        sw      7   2   stack                   //put @2 in stack
-        add     27  1   neg1                    //@27 = @1 - 1
-        add     28  2   neg1                    //@28 = @2 - 1
-        beq     27  0   loop                    //if n == 0 go to loop
-        beq     27  28  loop                    //if n == r go to loop
-        add     27  0   1                       //if not return n = 1
-        add     28  0   1                       //if not return r = 1
-        lw      0   10                          //prepare to call loop
-        jalr    10  11                          //call loop
-Comb2:  lw      0   5   pos1                    //stack pointer
-        lw      0   1   InputR                  //@1 = InputR
-        lw      0   2   InputN                  //@2 = inputN
-        add     7   5   7                       //increment stack pointer
-        sw      7   1   stack                   //put @1 in stack
-        add     7   5   7                       //increment stack pointer
-        sw      7   2   stack                   //put @2 in stack
-        add     27  1   neg1                    //@27 = @1 - 1
-        add     28  2   neg1                    //@28 = @2 - 1
-        beq     27  0   loop2                   //if n == 0 go to loop
-        beq     27  28  loop2                   //if n == r go to loop
-        add     27  0   1                       //if not return n = 1
-        add     28  0   1                       //if not return r = 1
-        jalr    0   7
-        halt                                    //end
-loop:   add     27  27  neg1                    //@27 = @27 - 1
-        lw      0   12                          //prepare to call Comb2
-        jalr    12  13                          //Call Comb2
-        add     11  11  13                      //comb(n-1,r)+ comb(n-1,r-1)
-        jalr    0   7
-loop2:  add     27  27  neg1                    //@27 = @27 - 1
-        add     28  28  neg1                    //@28 = @28 - 1
-        lw      0   12                          //prepare to call Comb2
-        jalr    12  13                          //Call Comb2
-        add     11  11  13                      //comb(n-1,r)+ comb(n-1,r-1)
-        jalr    0   7
-
-    
-    
+        lw      0       6       one             @6 = 1
+        lw      0       1       n               @1 = input[n]
+        lw      0       2       r               @2 = input[r]
+        sw      5       1       stack           store n to stack
+        add     5       6       5               increse stack pointer
+        sw      5       2       stack           store r to stack
+        add     5       6       5               increse stack pointer
+        lw      0       4       Comb            prepare to call Comb
+        jalr    4       7                       Call Comb
+end     halt                                    end
+Comb    lw      0       6       neg1
+        add     5       6       5               decrese stack pointer
+        lw      5       1       stack           load @1 = n from stack
+        add     5       6       5               decrese stack pointer
+        lw      5       1       stack           load @2 = r from stack
+        beq     0       2       Loop            if r = 0 go to Loop
+        beq     1       2       Loop            if n = r go to Loop
+        lw      0       6       one             @6 = 1
+        add     4       1       neg1            @4 = n-1
+        sw      5       4       stack           store n-1 to stack
+        add     5       6       5               increse stack pointer
+        add     4       2       neg1            @4 = r-1
+        sw      5       4       stack           store n-1 to stack
+        add     5       6       5               increse stack pointer
+        add     4       1       neg1            @4 = n-1
+        sw      5       4       stack           store n-1 to stack
+        add     5       6       5               increse stack pointer
+        add     4       2       0               @4 = r
+        sw      5       4       stack           store r to stack
+        add     5       6       5               increse stack pointer
+        lw      0       4       Comb            prepare to call
+        jalr    4       6
+Loop    lw      0       6       one             @6 = 1
+        add     3       6       3               @3 += 1 (basecase)
+        lw      0       4       Comb            @4 store Comb
+        beq     5       0       end             if stack go to 0 then go to end of the program
+        jalr    4       6
+        jalr    7       6                       return
