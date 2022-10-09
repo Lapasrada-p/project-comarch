@@ -36,3 +36,10 @@ Loop    lw      0       6       one             @6 = 1
         beq     5       0       end             if stack go to 0 then go to end of the program
         jalr    4       6
         jalr    7       6                       return
+comAdr  .fill   Comb
+one     .fill   1
+neg1    .fill   -1
+LAdr    .fill   Loop
+n       .fill   7       input
+r       .fill   3       input  
+stack   .fill   0
