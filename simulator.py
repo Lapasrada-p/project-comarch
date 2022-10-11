@@ -18,7 +18,7 @@ dec = []
 # #convert dec to bin
 for i in range(len(fromAssem)):
     x = fromAssem[i].split()
-    # print(x)
+    print(x)
     dec.append(int(x[0]))
 
 # print(dec)
@@ -51,7 +51,8 @@ numMemory = len(mem)
 count = 0
 
 
-w = open("output_simulator.txt","w")    #For writing output
+w = open("output_simulator.txt","w")
+
 
 while( pc < numMemory):
     # print()
@@ -70,6 +71,18 @@ while( pc < numMemory):
     # print('reg1',reg[1])
 
     #For writing output
+    w.write('\n')
+    w.write("@@@\n")
+    w.write("state:\n")
+    w.write(f"\tpc {pc}\n")
+    w.write("\tmemory: \n")
+    for j in range(numMemory):
+        w.write(f"\t\tmem[ {j} ] {mem[j]}\n")
+    w.write("\tregisters:\n")
+    for k in range(len(reg)):
+        w.write(f"\t\treg[ {k} ] {reg[k]}\n")
+    w.write("end state\n")
+
     w.write('\n')
     w.write("@@@\n")
     w.write("state:\n")
@@ -110,6 +123,7 @@ while( pc < numMemory):
         n2 = bin(reg[rt])[2:].zfill(16)
         # print(n1,n2)
 
+
         s = ''
         for i in range(len(n1)):        #loop each character, nand each other
             if n1[i] == '1' and n2[i] == '1':
@@ -124,6 +138,7 @@ while( pc < numMemory):
         # print('n2',n2)
         # print('s ',s)
 
+
         pc+=1
 
     #### Lw ####
@@ -133,10 +148,12 @@ while( pc < numMemory):
         rt = int(machine_c[pc][6:9],2)
         offset = int(machine_c[pc][9:25],2)
         
+
         addr = int(offset) + reg[rs]        #Finding address
         # print(addr)
         # print('offset',offset)
         reg[rt] = int(mem[addr])    #store reg of rt to pc that give from value in [offset+rs]
+
         pc+=1
        
 
