@@ -31,17 +31,12 @@ for i in range(len(assem)): #loop assemble code
     # print(x)
     
     if x[0] in ins: #In case code doesn't have label
-        if x[0] =='add' or x[0] =='nand' or x[0] =='lw' or x[0] =='sw' or x[0] =='beq':
+        if x[0] =='add' or x[0] =='nand' :
             if x[0] =='add':
                 opcode.append('000')
             elif x[0] == 'nand':
                 opcode.append('001')
-            elif x[0] == 'lw':
-                opcode.append('010')
-            elif x[0] == 'sw':
-                opcode.append('011')
-            elif x[0] == 'beq':
-                opcode.append('100')
+            
             
             #why use this got invalid syntax ;-;
             # match x[0]:
@@ -61,12 +56,26 @@ for i in range(len(assem)): #loop assemble code
             f.append(None)
 
             # print(rd[i])
+        elif x[0] =='lw' or x[0] =='sw' or x[0] =='beq':
+            if x[0] == 'lw':
+                opcode.append('010')
+            elif x[0] == 'sw':
+                opcode.append('011')
+            elif x[0] == 'beq':
+                opcode.append('100')
+
+            # print('x3', x[3])
+
+            rs.append(x[1])
+            rt.append(x[2])
+            rd.append(x[3])
+            f.append(None)
 
         elif x[0] == 'jalr':
             opcode.append('101')
             rs.append(x[1])
-            rt.append(None)
-            rd.append(x[2])
+            rd.append(None)
+            rt.append(x[2])
             f.append(None)
         elif x[0] == 'halt' or x[0]=='noop':
             if x[0] =='halt':
@@ -95,17 +104,12 @@ for i in range(len(assem)): #loop assemble code
         sys.exit(1)
     else:
         label.append(x[0])
-        if x[1] =='add' or x[1] =='nand' or x[1] =='lw' or x[1] =='sw' or x[1] =='beq':
+        if x[1] =='add' or x[1] =='nand' :
             if x[1] =='add':
                 opcode.append('000')
             elif x[1] == 'nand':
                 opcode.append('001')
-            elif x[1] == 'lw':
-                opcode.append('010')
-            elif x[1] == 'sw':
-                opcode.append('011')
-            elif x[1] == 'beq':
-                opcode.append('100')
+            
             
             # match x[1]:
             #     case 'add':
@@ -122,13 +126,25 @@ for i in range(len(assem)): #loop assemble code
             rt.append(x[3])
             rd.append(x[4])
             f.append(None)
+        elif x[1] =='lw' or x[1] =='sw' or x[1] =='beq':
+            if x[1] == 'lw':
+                opcode.append('010')
+            elif x[1] == 'sw':
+                opcode.append('011')
+            elif x[1] == 'beq':
+                opcode.append('100')
+
+            rs.append(x[2])
+            rt.append(x[3])
+            rd.append(x[4])
+            f.append(None)
         
-        #JARL
-        elif x[1] == 'jarl':
+        #JALR
+        elif x[1] == 'jalr':
             opcode.append('101')
             rs.append(x[2])
-            rt.append(None)
-            rd.append(x[3])
+            rd.append(None)
+            rt.append(x[3])
             f.append(None)
 
         #halt or noop
@@ -160,22 +176,42 @@ for i in range(len(assem)): #loop assemble code
             rs.append(None)
             rt.append(None)
             rd.append(None)
-            # print(label)
-            if x[0] in rd:      #if label have the same name in rd
-                index = rd.index(x[0])      #find index of the label in rd[]
-                rd[index] = i       #set rd[index] to address
-                # print("index", index)
-                f.append(x[2]) 
-            elif x[2] in label:     #if  after .fill is in label
+            # print('x[2]',x[2])
+            # print(x[2] in label)
+
+             
+            if x[2] in label and not(x[0] in rd):     #if  after .fill is in label
                 index = label.index(x[2])
+                # print(1)
+                for j in range(len(rd)):
+                    if rd[j] == x[0]:
+                        rd[j] = i
                 f.append(index)
+            elif x[0] in rd and not(x[2] in label):      #if label have the same name in rd
+                for j in range(len(rd)):
+                    if rd[j] == x[0]:
+                        rd[j] = i
+                f.append(x[2])
+                # print(2)
+            elif x[0] in rd and x[2] in label:      
+                l_index = label.index(x[2])         
+                # print("index", l_index)
+                f.append(l_index)
+                for j in range(len(rd)):
+                    if rd[j] == x[0]:
+                        rd[j] = i
+                # print(3)
             else:
                 f.append(x[2])
+                # print(4)
         else:
             print("Opcode Error: Do not have this instruction")
             sys.exit(1)
 
 
+
+# print("rd",rd)
+# print("f",f)
 
 #checking beq if rd is symbolic
 for i in range(len(rd)):
@@ -197,11 +233,9 @@ w = open("input_simulator.txt","w")     #open filewriting for simulator
 
 for i in range(len(assem)): #loop for generate bin and dec
     
-    print(i)
+    # print(i)
     isFill = False
-    if i== 42:
-        print(len(opcode))
-        print(opcode)
+    
     # R-type
     if(opcode[i] == '000' or opcode[i] == '001'):
         # print(rd[i][0])
@@ -231,17 +265,16 @@ for i in range(len(assem)): #loop for generate bin and dec
         else:     
             rd[i] =  bin(int(rd[i]))[2:].zfill(16)
 
-        # print(rs[i],rt[i],rd[i])
         m = opcode[i]+rs[i]+rt[i]+rd[i]
         # print(m)
         
     # J-Type
     elif (opcode[i] == '101') :
         rs[i] =  bin(int(rs[i]))[2:].zfill(3)
-        rd[i] =  bin(int(rd[i]))[2:].zfill(3)
+        rt[i] =  bin(int(rt[i]))[2:].zfill(3)
 
         # print(rs[i],rt[i],rd[i])
-        m = opcode[i]+rs[i]+rd[i]+'0000000000000000'
+        m = opcode[i]+rs[i]+rt[i]+'0000000000000000'
         # print(m)
     
     # O-Type
