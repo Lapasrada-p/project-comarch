@@ -18,7 +18,7 @@ dec = []
 # #convert dec to bin
 for i in range(len(fromAssem)):
     x = fromAssem[i].split()
-    print(x)
+    # print(x)
     dec.append(int(x[0]))
 
 # print(dec)
@@ -33,80 +33,109 @@ for i in range(len(dec)):
 # print(dec) 
 # print(machine_c)
 
+
+mem = []
 reg = [0,0,0,0,0,0,0,0] #set all reg to 0 in first
 
-
+for i in range(len(fromAssem)): #loop showing what's inside mem
+    mem.append(fromAssem[i])
     
 
 #printing
 #output
-for i in range(len(fromAssem)): #loop showing what's inside mem
-    print(f"memory[{i}]={fromAssem[i]}")
+for i in range(len(mem)): #loop showing what's inside mem
+    print(f"memory[{i}]={mem[i]}")
 
-i = 0
+pc = 0
+numMemory = len(mem)
 count = 0
-while( i < len(fromAssem)):
-    # print('i',i)
+while( pc < numMemory):
     print()
     print("@@@")
     print("state:")
-    print(f"\tpc {i}")
+    print(f"\tpc {pc}")
     print("\tmemory: ")
-    for j in range(len(fromAssem)):
-        print(f"\t\tmem[ {j} ] {fromAssem[j]}")
+    for j in range(numMemory):
+        print(f"\t\tmem[ {j} ] {mem[j]}")
     print("\tregisters:")
     for k in range(len(reg)):
         print(f"\t\treg[ {k} ] {reg[k]}")
     print("end state")
     print()
 
-    # print(i)
-    opcode = machine_c[i][0:3] 
+    
+    opcode = machine_c[pc][0:3] 
     # print(opcode)
     #add
     if opcode == '000' :
         # print("add")
-        rs = int(machine_c[i][3:6],2)
-        rt = int(machine_c[i][6:9],2)
-        rd = int(machine_c[i][22:25],2)
+        rs = int(machine_c[pc][3:6],2)
+        rt = int(machine_c[pc][6:9],2)
+        rd = int(machine_c[pc][22:25],2)
         reg[rd] = reg[rs] + reg[rt]
+        pc+=1
 
     #nand
     elif opcode == '001' :
         print("nand")
-        rs = int(machine_c[i][3:6],2)
-        rt = int(machine_c[i][6:9],2)
-        rd = int(machine_c[i][22:25],2)
+        s = ''
+        rs = int(machine_c[pc][3:6],2)
+        rt = int(machine_c[pc][6:9],2)
+        rd = int(machine_c[pc][22:25],2)
+        nand = []
+        
+        n1 = bin(reg[rs])[2:].zfill(16)
+        n2 = bin(reg[rt])[2:].zfill(16)
+        print(n1,n2)
 
-        n1 = bin(reg[rs])
-        n2 = bin(reg[rt])
-        nand = not(n1 and n2)
-        print(nand)
-        reg[rd] = nand
+        for i in range(len(n1)):
+            if n1[i] == '1' and n2[i] == '1':
+                # nand.append('0')
+                s = s+'0'
+            else:
+                # nand.append('1')
+                s = s+'1'
+    
+
+        reg[rd]= int(s,2)
+
+        pc+=1
 
     #lw
     elif opcode == '010':
         # print("lw")
-        rs = int(machine_c[i][3:6],2)
-        rt = int(machine_c[i][6:9],2)
-        offset = int(machine_c[i][9:25],2)
+        rs = int(machine_c[pc][3:6],2)
+        rt = int(machine_c[pc][6:9],2)
+        offset = int(machine_c[pc][9:25],2)
         
         addr = int(offset) + reg[rs]
         # print('offset',offset)
         reg[rt] = int(fromAssem[addr]) #store reg of rt to pc that give from value in [offset+rs]
+        pc+=1
        
 
     #sw
     elif opcode == '011':
         print("sw")
+        rs = int(machine_c[pc][3:6],2)
+        rt = int(machine_c[pc][6:9],2)
+        offset = int(machine_c[pc][9:25],2)
+        
+        addr = int(offset) + reg[rs]
+        # print('offset',offset)
+        if(addr < len(mem)):
+            mem[addr] = reg[rt] #store reg of rt to pc that give from value in [offset+rs]
+        else:
+            mem.append(reg[rt])
+        pc+=1
 
     #beq    
     elif opcode == '100':
         # print("beq")
-        rs = int(machine_c[i][3:6],2)
-        rt = int(machine_c[i][6:9],2)
-        if(machine_c[i][9] == '1'):
-            m = machine_c[i][9:25] 
+        rs = int(machine_c[pc][3:6],2)
+        rt = int(machine_c[pc][6:9],2)
+        if(machine_c[pc][9] == '1'):
+            m = machine_c[pc][9:25] 
             
             o = (int(m,2)^0b1111111111111111) +1
             m = o*(-1)
@@ -114,18 +143,26 @@ while( i < len(fromAssem)):
             # print(o)  
             offset = m
         else:
-            offset = int(machine_c[i][9:25],2)
+            offset = int(machine_c[pc][9:25],2)
 
         # print('offset',offset)
         if reg[rs] == reg[rt]:
             # print('yes')
             # print(i)
-            i = i + offset
+            pc = pc + 1 + offset 
             # print(i)
+        else:
+            pc+=1
 
     #jalr
     elif opcode == '101':
         print("jalr")
+        rs = int(machine_c[pc][3:6],2)
+        rt = int(machine_c[pc][6:9],2)
+        reg[rt] = i+1
+        if(rs != rt):
+            i = reg[rs]
+            
     #halt
     elif opcode == '110':
         print("halt")
@@ -134,8 +171,9 @@ while( i < len(fromAssem)):
     elif opcode == '111':
         #Do nothing
         print("noop")
+        pc+=1
 
-    i+=1
+    
     count += 1
 
 print('machine halted')
@@ -144,10 +182,10 @@ print('final state of machine:')
 print()
 print("@@@")
 print("state:")
-print(f"\tpc {i+1}")
+print(f"\tpc {pc+1}")
 print("\tmemory: ")
-for j in range(len(fromAssem)):
-    print(f"\t\tmem[ {j} ] {fromAssem[j]}")
+for j in range(numMemory):
+    print(f"\t\tmem[ {j} ] {mem[j]}")
 print("\tregisters:")
 for k in range(len(reg)):
     print(f"\t\treg[ {k} ] {reg[k]}")
