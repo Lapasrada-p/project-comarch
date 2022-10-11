@@ -18,7 +18,7 @@ dec = []
 # #convert dec to bin
 for i in range(len(fromAssem)):
     x = fromAssem[i].split()
-    # print(x)
+    print(x)
     dec.append(int(x[0]))
 
 # print(dec)
@@ -49,6 +49,10 @@ for i in range(len(mem)): #loop showing what's inside mem
 pc = 0
 numMemory = len(mem)
 count = 0
+print(10 < len(mem))
+
+w = open("output_simulator.txt","w")
+
 while( pc < numMemory):
     print()
     print("@@@")
@@ -62,6 +66,18 @@ while( pc < numMemory):
         print(f"\t\treg[ {k} ] {reg[k]}")
     print("end state")
     print()
+
+    w.write('\n')
+    w.write("@@@\n")
+    w.write("state:\n")
+    w.write(f"\tpc {pc}\n")
+    w.write("\tmemory: \n")
+    for j in range(numMemory):
+        w.write(f"\t\tmem[ {j} ] {mem[j]}\n")
+    w.write("\tregisters:\n")
+    for k in range(len(reg)):
+        w.write(f"\t\treg[ {k} ] {reg[k]}\n")
+    w.write("end state\n")
 
     
     opcode = machine_c[pc][0:3] 
@@ -109,8 +125,9 @@ while( pc < numMemory):
         offset = int(machine_c[pc][9:25],2)
         
         addr = int(offset) + reg[rs]
+        print(addr)
         # print('offset',offset)
-        reg[rt] = int(fromAssem[addr]) #store reg of rt to pc that give from value in [offset+rs]
+        reg[rt] = int(mem[addr]) #store reg of rt to pc that give from value in [offset+rs]
         pc+=1
        
 
@@ -123,7 +140,9 @@ while( pc < numMemory):
         
         addr = int(offset) + reg[rs]
         # print('offset',offset)
-        if(addr < len(mem)):
+        # w.write(str(offset))
+        
+        if(addr < numMemory):
             mem[addr] = reg[rt] #store reg of rt to pc that give from value in [offset+rs]
         else:
             mem.append(reg[rt])
@@ -159,9 +178,9 @@ while( pc < numMemory):
         print("jalr")
         rs = int(machine_c[pc][3:6],2)
         rt = int(machine_c[pc][6:9],2)
-        reg[rt] = i+1
+        reg[rt] = pc+1
         if(rs != rt):
-            i = reg[rs]
+            pc = reg[rs]
             
     #halt
     elif opcode == '110':
@@ -190,6 +209,23 @@ print("\tregisters:")
 for k in range(len(reg)):
     print(f"\t\treg[ {k} ] {reg[k]}")
 print("end state")
+
+
+
+w.write('machine halted\n')
+w.write(f'total of {count+1} instructions executed\n')
+w.write('final state of machine:\n')
+w.write('\n')
+w.write("@@@\n")
+w.write("state:\n")
+w.write(f"\tpc {pc+1}\n")
+w.write("\tmemory: \n")
+for j in range(numMemory):
+    w.write(f"\t\tmem[ {j} ] {mem[j]}\n")
+w.write("\tregisters:\n")
+for k in range(len(reg)):
+    w.write(f"\t\treg[ {k} ] {reg[k]}\n")
+w.write("end state\n")
 
 sys.exit(0) #end program
 
