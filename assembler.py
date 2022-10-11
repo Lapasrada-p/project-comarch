@@ -1,7 +1,7 @@
 import sys
 #### Still don't have checking reg after instruct ####
 
-fname = "tester.txt"
+fname = "combination(r,n).txt"
 assem = []
 
 try:
@@ -199,6 +199,12 @@ for i in range(len(assem)): #loop for generate bin and dec
     isFill = False
     # R-type
     if(opcode[i] == '000' or opcode[i] == '001'):
+        # print(rd[i][0])
+        
+        if rd[i][0].isalpha():
+            print("Cannot use symbolic in rd")
+            sys.exit(1)
+
         rs[i] =  bin(int(rs[i]))[2:].zfill(3)
         rt[i] =  bin(int(rt[i]))[2:].zfill(3)
         rd[i] =  bin(int(rd[i]))[2:].zfill(3)
