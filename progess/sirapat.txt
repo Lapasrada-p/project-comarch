@@ -9,3 +9,5 @@
          21:00-21:30 (0.5hr) แก้ไขassemblerส่วนbeq
 6/10/22  15:00-15:30 (0.5hr) แก้ไขassembler ,เพิ่มส่วนsimulator
 11/10/22 2:00-5:30   (3.5hrs)  แก้ไขsimulator, Enable to simulate an example correctly
+         14:00-18:00 (4hrs)  แก้ไขassemblerและsimulator
+         23:30-02:30 (3hrs)  แก้ไขassemblerและsimulator

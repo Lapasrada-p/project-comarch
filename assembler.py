@@ -1,7 +1,7 @@
 import sys
 #### Still don't have checking reg after instruct ####
 
-fname = "combination(r,n).txt"
+fname = "tester.txt"
 assem = []
 
 try:
@@ -181,12 +181,11 @@ for i in range(len(assem)): #loop assemble code
 
              
             if x[2] in label and not(x[0] in rd):     #if  after .fill is in label
-                index = label.index(x[2])
-                # print(1)
+                index = label.index(x[2])       #finding index of x[2] in label list
+                f.append(index)
                 for j in range(len(rd)):
                     if rd[j] == x[0]:
                         rd[j] = i
-                f.append(index)
             elif x[0] in rd and not(x[2] in label):      #if label have the same name in rd
                 for j in range(len(rd)):
                     if rd[j] == x[0]:
@@ -196,10 +195,13 @@ for i in range(len(assem)): #loop assemble code
             elif x[0] in rd and x[2] in label:      
                 l_index = label.index(x[2])         
                 # print("index", l_index)
+                # r_index = rd.index(x[0])
+
                 f.append(l_index)
                 for j in range(len(rd)):
                     if rd[j] == x[0]:
                         rd[j] = i
+                        # rd[j] = l_index
                 # print(3)
             else:
                 f.append(x[2])
@@ -215,7 +217,7 @@ for i in range(len(assem)): #loop assemble code
 
 #checking beq if rd is symbolic
 for i in range(len(rd)):
-    # print(type(rd[i]))
+    print(f)
     s = str(rd[i])
     if(rd[i] != None):
         if s[0].isalpha():
@@ -226,6 +228,7 @@ for i in range(len(rd)):
                         rd[i] = ind - i -1 
                        
                         # print("rd",rd[i])
+                    
 
 
 w = open("input_simulator.txt","w")     #open filewriting for simulator
