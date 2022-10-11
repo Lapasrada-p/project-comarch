@@ -15,8 +15,8 @@ Comb    lw      0       6       neg1
         lw      5       1       stack           load @2 = r from stack
         beq     0       2       Loop            if r = 0 go to Loop
         beq     1       2       Loop            if n = r go to Loop
-        lw      0       6       one             @6 = 1
-        add     4       1       neg1            @4 = n-1
+        lw      0       6       neg1             @6 = -1
+        add     4       1       6           @4 = n-1
         sw      5       4       stack           store n-1 to stack
         add     5       6       5               increse stack pointer
         add     4       2       neg1            @4 = r-1
