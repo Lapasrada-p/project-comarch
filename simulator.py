@@ -101,18 +101,25 @@ while( pc < numMemory):
         nand = []
         
         n1 = bin(reg[rs])[2:].zfill(16)
+        # print(bin(reg[rt]))
+   
         n2 = bin(reg[rt])[2:].zfill(16)
         print(n1,n2)
 
-        for i in range(len(n1)):
-            if n1[i] == '1' and n2[i] == '1':
+        # for i in range(len(n1)):
+        #     if n1[i] == '1' and n2[i] == '1':
+        #         # nand.append('0')
+        #         s = s+'0'
+        #     else:
+        #         # nand.append('1')
+        #         s = s+'1'
+        s = ''
+        if n1[len(n1)-1] == '1' and n2[len(n1)-1] == '1':
                 # nand.append('0')
                 s = s+'0'
-            else:
-                # nand.append('1')
-                s = s+'1'
-    
-
+        else:
+            # nand.append('1')
+            s = s+'1'
         reg[rd]= int(s,2)
 
         pc+=1
