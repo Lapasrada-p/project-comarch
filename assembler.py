@@ -28,8 +28,8 @@ f = []
 
 for i in range(len(assem)): #loop assemble code
     x = assem[i].split() 
+    # print(x)
     
-
     if x[0] in ins: #In case code doesn't have label
         if x[0] =='add' or x[0] =='nand' or x[0] =='lw' or x[0] =='sw' or x[0] =='beq':
             if x[0] =='add':
@@ -179,9 +179,10 @@ for i in range(len(assem)): #loop assemble code
 
 #checking beq if rd is symbolic
 for i in range(len(rd)):
-    # print(rd[i])
+    # print(type(rd[i]))
+    s = str(rd[i])
     if(rd[i] != None):
-        if str(rd[i]).isalpha():
+        if s[0].isalpha():
                     if rd[i] in label:
                         ind = label.index(rd[i])
                         # print("ind",ind)
@@ -195,13 +196,14 @@ w = open("input_simulator.txt","w")     #open filewriting for simulator
 
 
 for i in range(len(assem)): #loop for generate bin and dec
-    # print(i)
+    
+    print(i)
     isFill = False
     # R-type
     if(opcode[i] == '000' or opcode[i] == '001'):
         # print(rd[i][0])
-        
-        if rd[i][0].isalpha():
+        s = str(rd[i])
+        if s[0].isalpha():
             print("Cannot use symbolic in rd")
             sys.exit(1)
 
@@ -217,6 +219,7 @@ for i in range(len(assem)): #loop for generate bin and dec
     elif (opcode[i] == '010' or opcode[i] == '011' or opcode[i] == '100') :
         rs[i] =  bin(int(rs[i]))[2:].zfill(3)
         rt[i] =  bin(int(rt[i]))[2:].zfill(3)
+        # print('i',i ,'rd',rd[i])
         if int(rd[i])>32767 or int(rd[i])<-32768:
             print(f"Error: In address {i}, offsetField is more than 16 bit")
             sys.exit(1)
