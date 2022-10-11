@@ -16,21 +16,21 @@ Comb    lw      0       6       neg1
         beq     0       2       LAdr            if r = 0 go to Loop
         beq     1       2       LAdr            if n = r go to Loop
         lw      0       6       neg1            @6 = -1
-        //add     1       6       4               @4 = n-1
+        add     1       6       4               @4 = n-1
         lw      0       6       one             @6 = 1
         sw      5       4       stack           store n-1 to stack
         add     5       6       5               increse stack pointer
         lw      0       6       neg1            @6 = -1
-        //add     2       6       4               @4 = r-1
+        add     2       6       4               @4 = r-1
         lw      0       6       one             @6 = 1
         sw      5       4       stack           store n-1 to stack
         add     5       6       5               increse stack pointer
         lw      0       6       neg1            @6 = -1
-        //add     1       6       4             @4 = n-1
+        add     1       6       4             @4 = n-1
         lw      0       6       one             @6 = 1
         sw      5       4       stack           store n-1 to stack
         add     5       6       5               increse stack pointer
-        //add     2       0       4               @4 = r
+        add     2       0       4               @4 = r
         sw      5       4       stack           store r to stack
         add     5       6       5               increse stack pointer
         lw      0       4       comAdr          prepare to call
