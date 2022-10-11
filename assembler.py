@@ -62,7 +62,7 @@ for i in range(len(assem)): #loop assemble code
 
             # print(rd[i])
 
-        elif x[0] == 'jarl':
+        elif x[0] == 'jalr':
             opcode.append('101')
             rs.append(x[1])
             rt.append(None)
@@ -199,6 +199,9 @@ for i in range(len(assem)): #loop for generate bin and dec
     
     print(i)
     isFill = False
+    if i== 42:
+        print(len(opcode))
+        print(opcode)
     # R-type
     if(opcode[i] == '000' or opcode[i] == '001'):
         # print(rd[i][0])
