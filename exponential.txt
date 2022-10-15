@@ -35,7 +35,7 @@ loop1   lw      0   2   a           x2 = input
         add     7   2   7           x7-1
         beq     0   0   loop1       go to loop1
 jump    add     7   5   7           x7+1
-        lw      7   2   stack       x2 = stack[reg7] (increment)
+        lw      7   1   stack       x1 = stack[reg7] (increment)
         add     7   5   7           x7+1
         lw      7   2   stack       x2 = stack[reg7] (answer)
         add     0   2   1           x2 = x1
@@ -43,7 +43,9 @@ jump    add     7   5   7           x7+1
         add     7   2   7           x7-1
         sw      7   1   stack       stack[reg7] = x1 (increment)
         add     7   2   7           x7-1
-        lw      7   1   stack       x1 = stack[reg7] (i)
+        lw      7   5   stack       stack[reg] = x5 
+        add     7   2   7           x7-1
+        sw      7   1   stack       stack[reg7] = x1 (i)
         add     1   5   1           x1+1
         lw      0   2   b           x2 = input
         sw      7   1   stack       stack[reg7] = x1 (i)
