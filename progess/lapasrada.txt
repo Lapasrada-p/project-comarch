@@ -7,8 +7,12 @@
 30/9/22  23:00-00:00 (1hr) เขียน assembly multiply
 1/10/22  00:00-2:30 (2.5hr) เขียน assembly multiply
 2/10/22  00:30-1:30 (1hr) เขียนassembly multiplyต่อ และทำเสร็จแล้ว รอเช็คในsimulatorอีกที 
-3/10/22  21:30-22:30 (1hr)   ทำความเข้าใจ simulator
+3/10/22  21:30-22:30 (1hr) ทำความเข้าใจ simulator
 4/10/22  00:30-1:30 (1hr)  ทำความเข้าใจ simulator(ต่อ)และเริ่มทำsimulator>อ่านไฟล์outputจากassemblerและconvert to binary 
 5/10/22  16:20-17:20 (1hr) check assembler กับ multiply ว่าmachine codeตรงไหม(เช็คassembler) และแก้ไขinstruction ในmultiply 
 9/10/22  21:00-00:00 (3hr) ทำความเข้าใจ simulator+coding simulator
 10/10/22 00:00-1:30 (1.5hr) ทำความเข้าใจ simulator+coding simulator
+11/10/22 14:00-17:00 (3hr) ลองรันassembly ในฟหหำทิสำ และsimulator และหาbugที่เกิดขึ้น
+12/10/22 00:00-02:00 (2hr) หาbugจากการรันassembly multiply ในsimulator (ได้คำตอบไม่ถูกต้อง ไม่รู้ว่าผิดโปรแกรมไหน)
+15/10/22 03:00-05:00 (2hr) หาbugจากการรันassembly multiply ในsimulator ต่อ (รู้แล้วว่าผิดในassembly)
+        16:00-16:30 (0.5hr) แก้assemble multiply (multiply completeแล้ว)
