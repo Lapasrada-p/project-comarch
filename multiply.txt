@@ -5,13 +5,14 @@
         lw      0       6       pos1            x6 = 1
 multi   lw      0       5       bcount          x5 = 15 (number of bit mplier,mcand <=15 )
         beq     4       5       end             loop x4 == x5 then end  (x5 = 15)
-        nand    2       6       7               x7 = mplier_0       
-        beq     7       4       shift           if mplier_0 = 0 (no op) then shift left
+        nand    2       6       7               x7 = mplier nand pos1      
+        nand    7       7       7               x7 nand x7 (mplier and pos1)
+        beq     7       0       shift           if mplier_0 = 0 (no op) then shift left
         add     3       1       1               if mplier_0 = 1 then product + = mcand
 shift   add     3       3       3               mcand shift left 1 bit 
-        add     6       6       6               pos shift left 1 bit
-        lw      0       5       one             x5 = 1
+plus    lw      0       5       one             x5 = 1
         add     5       4       4               x4++
+        add     6       6       6               pos shift left 1 bit
         beq     0       0       multi           go back to the beginning of the loop
 end     halt
 mcand   .fill   32766
