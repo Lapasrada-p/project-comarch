@@ -10,7 +10,7 @@ multi   lw      0       5       bcount          x5 = 15 (number of bit mplier,mc
         beq     7       0       shift           if mplier_0 = 0 (no op) then shift left
         add     3       1       1               if mplier_0 = 1 then product + = mcand
 shift   add     3       3       3               mcand shift left 1 bit 
-plus    lw      0       5       one             x5 = 1
+        lw      0       5       one             x5 = 1
         add     5       4       4               x4++
         add     6       6       6               pos shift left 1 bit
         beq     0       0       multi           go back to the beginning of the loop
