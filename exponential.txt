@@ -1,76 +1,67 @@
-        lw      0   5   pos1        x5 = 1
-        lw      0   2   b           x2 = input
-        beq     0   2   end          if input = 0 then end
-        add     0   5   1           x1 = 1
-        sw      7   1   stack       stack[reg7] = x1 (i)
-        add     7   5   7           x7 + 1
-        sw      7   1   stack       stack[reg7] = x1 (j)
-        add     7   5   7           x7 + 1
-        lw      0   1   a           x1 = input
-        sw      7   1   stack       stack[reg7] = x1 (increment)
-        add     7   5   7           x7+1
-        sw      7   1   stack       stack[reg7] = x1 (answer)
-        lw      0   6   neg1        x6 = -1
-        add     7   6   7           x7-1
-        add     7   6   7           x7-1
-        add     7   6   7           x7-1
-        lw      7   1   stack       x7 (i) = stack[reg7] 
-loop2   beq     1   2   end          if x1 = x2 then end
-loop1   lw      0   2   a           x2 = input
-        add     7   5   7           x7+1
-        lw      7   1   stack       x1 (j) = stack[reg7] 
-        beq     1   2   jump          if x1 = x2 then jump
-        add     7   5   7           x7+1
-        lw      7   1   stack       x1 (increment) = stack[reg7]  
-        add     7   5   7           x7+1
-        lw      7   2   stack       x1 (answer) = stack[reg7] 
-        add     1   2   2           x1+x2
-        sw      7   2   stack       stack[reg7] = x2 = answer
-        lw      0   2   neg1        x2 = -1
-        add     7   2   7           x7-1
-        add     7   2   7           x7-1
-        lw      7   1   stack       x1 = stack[reg7] (j)
-        add     1   5   1           x1+1
-        sw      7   1   stack       stack[reg7] = x1 (j)
-        add     7   2   7           x7-1
+        lw      0   5   pos1        $5 = 1
+        lw      0   2   b           $2 = input
+        beq     0   2   49          if input = 0 then end
+        add     0   5   1           $1 = 1
+        sw      7   1   stack       stack[reg7] = $1 (i)
+        add     7   5   7           $7 + 1
+        sw      7   1   stack       stack[reg7] = $1 (j)
+        add     7   5   7           $7 + 1
+        lw      0   1   a           $1 = input
+        sw      7   1   stack       stack[reg7] = $1 (increment)
+        add     7   5   7           $7+1
+        sw      7   1   stack       stack[reg7] = $1 (answer)
+        lw      0   6   neg1        $6 = -1
+        add     7   6   7           $7-1
+        add     7   6   7           $7-1
+        add     7   6   7           $7-1
+        lw      7   1   stack       $7 (i) = stack[reg7] 
+loop2   beq     1   2   34          if $1 = $2 then end
+loop1   lw      0   2   a           $2 = input
+        add     7   5   7           $7+1
+        lw      7   1   stack       $1 (j) = stack[reg7] 
+        beq     1   2   14          if $1 = $2 then jump
+        add     7   5   7           $7+1
+        lw      7   1   stack       $1 (increment) = stack[reg7]  
+        add     7   5   7           $7+1
+        lw      7   2   stack       $1 (answer) = stack[reg7] 
+        add     1   2   2           $1+$2
+        sw      7   2   stack       stack[reg7] = $2 = answer
+        lw      0   2   neg1        $2 = -1
+        add     7   2   7           $7-1
+        add     7   2   7           $7-1
+        lw      7   1   stack       $1 = stack[reg7] (j)
+        add     1   5   1           $1+1
+        sw      7   1   stack       stack[reg7] = $1 (j)
+        add     7   2   7           $7-1
         beq     0   0   loop1       go to loop1
-jump    add     7   5   7           x7+1
-        lw      7   1   stack       x1 = stack[reg7] (increment)
-        add     7   5   7           x7+1
-        lw      7   2   stack       x2 = stack[reg7] (answer)
-        add     0   2   1           x2 = x1
-        lw      0   2   neg1        x2 = -1
-        add     7   2   7           x7-1
-        sw      7   1   stack       stack[reg7] = x1 (increment)
-        add     7   2   7           x7-1
-        lw      7   5   stack       stack[reg] = x5 
-        add     7   2   7           x7-1
-        sw      7   1   stack       stack[reg7] = x1 (i)
-        add     1   5   1           x1+1
-        lw      0   2   b           x2 = input
-        sw      7   1   stack       stack[reg7] = x1 (i)
+jump    add     7   5   7           $7+1
+        lw      7   1   stack       $1 = stack[reg7] (increment)
+        add     7   5   7           $7+1
+        lw      7   2   stack       $2 = stack[reg7] (answer)
+        add     0   2   1           $2 = $1
+        lw      0   2   neg1        $2 = -1
+        add     7   2   7           $7-1
+        sw      7   1   stack       stack[reg7] = $1 (increment)
+        add     7   2   7           $7-1
+        lw      7   5   stack       stack[reg] = $5 
+        add     7   2   7           $7-1
+        sw      7   1   stack       stack[reg7] = $1 (i)
+        add     1   5   1           $1+1
+        lw      0   2   b           $2 = input
+        sw      7   1   stack       stack[reg7] = $1 (i)
         beq     0   0   loop2       go to loop2
-        add     7   5   7           x7 + 1
-        add     7   5   7           x7 + 1
-        add     7   5   7           x7 + 1
-        lw      7   1   stack       stack[reg7] = x1 (answer)
-        lw      0   2   b           x2 = input
-        beq     2   0   2           if x2 = 0 then go to pc+3
+        add     7   5   7           $7 + 1
+        add     7   5   7           $7 + 1
+        add     7   5   7           $7 + 1
+        lw      7   1   stack       stack[reg7] = $1 (answer)
+        lw      0   2   b           $2 = input
         add     0   1   3           
+        beq     2   0   2           if $2 = 0 then go to pc+3
         halt                        end
-        add     0   5   3           x3 = 1
+        add     0   5   3           $3 = 1
         halt                        end
 pos1    .fill   1
 neg1    .fill   -1
-stack   .fill   0       //stack
-a       .fill   10      //input
-b       .fill   3       //input
-
-         
-
-
-
-
-
-
-
+stack   .fill   0                   stack
+a       .fill   2                   input
+b       .fill   3                   input
