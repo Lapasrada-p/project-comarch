@@ -3,6 +3,7 @@ import sys
 fromAssem = []
 fname = "input_simulator.txt"
 
+#Read file
 try:
     f = open(fname, 'r')
 except OSError:
@@ -15,17 +16,33 @@ with f:
         fromAssem.append(int(y))
     f.close()
 
+## stateStruct ##
+pc = 0
+mem = []
+reg = [0,0,0,0,0,0,0,0] #set all reg to 0 at first
+numMemory = 0
+
+## PrintState ##
+def printState():
+    w.write('\n')
+    w.write("@@@\n")
+    w.write("state:\n")
+    w.write(f"\tpc {pc}\n")
+    w.write("\tmemory: \n")
+    for j in range(numMemory):
+        w.write(f"\t\t\tmem[ {j} ] {mem[j]}\n")
+    w.write("\tregisters:\n")
+    for k in range(len(reg)):
+        w.write(f"\t\t\treg[ {k} ] {reg[k]}\n")
+    w.write("end state\n")    
+
 
 machine_c = []      #For collecting machine code
 for i in range(len(fromAssem)):
     b = bin(fromAssem[i]).replace("0b", "").zfill(25) #Convert decimal to binary
     machine_c.append(b)
    
-#stateStruct
-pc = 0
-mem = []
-reg = [0,0,0,0,0,0,0,0] #set all reg to 0 at first
-numMemory = 0
+
 
 for i in range(len(fromAssem)): #loop fromAssem[]
     mem.append(fromAssem[i])        #memory[i] = address[i]
@@ -46,25 +63,13 @@ w.write("\n")
 
 while( pc < numMemory):
    
-    #For writing output
-    #PrintState
-    w.write('\n')
-    w.write("@@@\n")
-    w.write("state:\n")
-    w.write(f"\tpc {pc}\n")
-    w.write("\tmemory: \n")
-    for j in range(numMemory):
-        w.write(f"\t\t\tmem[ {j} ] {mem[j]}\n")
-    w.write("\n\tregisters:\n")
-    for k in range(len(reg)):
-        w.write(f"\t\t\treg[ {k} ] {reg[k]}\n")
-    w.write("end state\n")    
+    printState() 
 
-
+    ## instruction executes ##
     opcode = machine_c[pc][0:3]         #Opcode = bits 22-24
 
 
-    #### Add ####
+    # Add
     if opcode == '000' :
         #Convert binary to decimal
         rs = int(machine_c[pc][3:6],2)      #bits 21-19
@@ -73,7 +78,7 @@ while( pc < numMemory):
         reg[rd] = reg[rs] + reg[rt]         #value in rd = value in rs+rd
         pc+=1   #Next pc
 
-    #### Nand ####
+    # Nand 
     elif opcode == '001' :
         # print("nand")
         s = ''      #String for answer of nand
@@ -104,7 +109,7 @@ while( pc < numMemory):
 
         pc+=1
 
-    #### Lw ####
+    # Lw 
     elif opcode == '010':
         # Convert binary to decimal
         rs = int(machine_c[pc][3:6],2)      #bits 21-19
@@ -118,7 +123,7 @@ while( pc < numMemory):
         pc+=1
        
 
-    #### Sw ####
+    # Sw 
     elif opcode == '011':
         #Convert binary to decimal
         rs = int(machine_c[pc][3:6],2)      #bits 21-19
@@ -139,7 +144,7 @@ while( pc < numMemory):
 
         pc+=1
 
-    #### Beq ####    
+    # Beq     
     elif opcode == '100':
         # Convert decimal to binary
         rs = int(machine_c[pc][3:6],2)      #bits 21-19
@@ -160,7 +165,7 @@ while( pc < numMemory):
         else:
             pc+=1
 
-    #### Jalr ####
+    # Jalr
     elif opcode == '101':
         #Convert binary to decimal
         rs = int(machine_c[pc][3:6],2)      #bits 21-19
@@ -169,12 +174,12 @@ while( pc < numMemory):
         if(rs != rt):       #if regA != regB 
             pc = reg[rs]    #set new pc = value in reg[rs]
             
-    #### Halt ####
+    # Halt
     elif opcode == '110':
         # print("halt")
         break
 
-    #### Noop ####
+    # Noop 
     elif opcode == '111':
         #Do nothing
         # print("noop")
@@ -190,16 +195,7 @@ w.write('final state of machine:\n')
 w.write('\n')
 
 #For printing final state of machine
-w.write("@@@\n")
-w.write("state:\n")
-w.write(f"\tpc {pc}\n")
-w.write("\tmemory: \n")
-for j in range(numMemory):
-    w.write(f"\t\t\tmem[ {j} ] {mem[j]}\n")
-w.write("\n\tregisters:\n")
-for k in range(len(reg)):
-    w.write(f"\t\t\treg[ {k} ] {reg[k]}\n")
-w.write("end state\n")
+printState()
 
 sys.exit(0) #end program
 
