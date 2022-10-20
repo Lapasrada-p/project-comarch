@@ -1,0 +1,15 @@
+        lw      0       1       prod    prod = 0
+        lw      0       2       src     x2 = src
+        lw      0       3       dst     x3 = dst
+        lw      0       4       src     start 
+        lw      0       5       one     x5 = 1
+        add     5       3       3       dst = dst + 1
+loop    beq     2       3       end     if x2 = x3 then end 
+        add     2       1       1       prod = prod + src
+        add     5       2       2       src = src + 1
+        beq     0       0       loop    go to loop
+end     halt
+src     .fill   1       //input (a1)
+dst     .fill   100     //input (an)
+one     .fill   1
+prod    .fill   0
