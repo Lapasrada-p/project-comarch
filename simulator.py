@@ -16,29 +16,30 @@ with f:
     f.close()
 
 
-machine_c = []
+machine_c = []      #For collecting machine code
 for i in range(len(fromAssem)):
     b = bin(fromAssem[i]).replace("0b", "").zfill(25) #Convert decimal to binary
     machine_c.append(b)
    
-
-mem = []
-reg = [0,0,0,0,0,0,0,0] #set all reg to 0 in first
-
-for i in range(len(fromAssem)): #loop showing what's inside mem
-    mem.append(fromAssem[i])        #memory = address
-    
-w = open("output_simulator.txt","w")
-
 #stateStruct
 pc = 0
+mem = []
+reg = [0,0,0,0,0,0,0,0] #set all reg to 0 at first
+numMemory = 0
+
+for i in range(len(fromAssem)): #loop fromAssem[]
+    mem.append(fromAssem[i])        #memory[i] = address[i]
+    
+w = open("output_simulator.txt","w")        #open file to write
+
+
 numMemory = len(mem)
-count = 0
+count = 0   #For counting executed instruction
 
 
 #printing
 #output
-for i in range(len(mem)): #loop for writing what's inside mem
+for i in range(numMemory): #loop for writing what's inside mem
     w.write(f"memory[{i}]={mem[i]}\n")
 w.write("\n")
 
@@ -81,23 +82,21 @@ while( pc < numMemory):
         rt = int(machine_c[pc][6:9],2)      #bits 18-16
         rd = int(machine_c[pc][22:25],2)    #bits 2-0
         
-        #convert value in rs to 16 bits binary
-        if(int(reg[rs])<0):     #If value in rs is negative number
-            #Changing decimal to 16 bit binary
+        #Changing decimal to 16 bit binary 
+        if(int(reg[rs])<0):     #If value in reg[rs] is negative number
             n1 =  bin((reg[rs])&0b1111111111111111)[2:].zfill(16)
         else:     #positive
             n1 = bin(reg[rs])[2:].zfill(16)
 
-        if(reg[rt]<0):     #If value in rt is negative number
-            #Changing decimal to 16 bit binary
+        #Changing decimal to 16 bit binary      
+        if(reg[rt]<0):     #If value in reg[rt] is negative number
             n2 =  bin((reg[rt])&0b1111111111111111)[2:].zfill(16)
         else:     #positive
             n2 = bin(reg[rt])[2:].zfill(16)
    
-        s = ''
         for i in range(len(n1)):        #loop each character and nand each other
-            if n1[i] == '1' and n2[i] == '1':       #If rs = 1 and rt = 1
-                s = s+'0'
+            if n1[i] == '1' and n2[i] == '1':       #If reg[rs][i] = 1 and reg[rt][i] = 1
+                s = s+'0'       # ~(1&1)
             else:
                 s = s+'1'
 
@@ -112,9 +111,9 @@ while( pc < numMemory):
         rt = int(machine_c[pc][6:9],2)      #bits 18-16
         offset = int(machine_c[pc][9:25],2) #bits 15-0
         
-        addr = int(offset) + reg[rs]        #Finding address
+        addr = int(offset) + reg[rs]        #Finding address by offsetField + value in regA (reg[rs])
 
-        reg[rt] = int(mem[addr])    #store reg of rt to pc that give from value in [offset+rs]
+        reg[rt] = int(mem[addr])    #write pc that give from value in [offset+rs] in reg[rt]
 
         pc+=1
        
@@ -156,7 +155,7 @@ while( pc < numMemory):
         else:                           #positive
             offset = int(machine_c[pc][9:25],2) #bits 15-0
 
-        if reg[rs] == reg[rt]:      #if value in rs and rt is the same
+        if reg[rs] == reg[rt]:      #if value in reg[rs] and reg[rt] is the same
             pc = pc + 1 + offset    #Set new pc to jump
         else:
             pc+=1
@@ -166,9 +165,9 @@ while( pc < numMemory):
         #Convert binary to decimal
         rs = int(machine_c[pc][3:6],2)      #bits 21-19
         rt = int(machine_c[pc][6:9],2)      #bits 18-16
-        reg[rt] = pc+1
-        if(rs != rt):
-            pc = reg[rs]
+        reg[rt] = pc+1      #reg[rt] = next line
+        if(rs != rt):       #if regA != regB 
+            pc = reg[rs]    #set new pc = value in reg[rs]
             
     #### Halt ####
     elif opcode == '110':
@@ -179,15 +178,18 @@ while( pc < numMemory):
     elif opcode == '111':
         #Do nothing
         # print("noop")
-        pc+=1
+        pc+=1   #Go to next pc
 
     count += 1  #counting instructions that was executed
+
 
 
 w.write('machine halted\n')
 w.write(f'total of {count+1} instructions executed\n')
 w.write('final state of machine:\n')
 w.write('\n')
+
+#For printing final state of machine
 w.write("@@@\n")
 w.write("state:\n")
 w.write(f"\tpc {pc}\n")

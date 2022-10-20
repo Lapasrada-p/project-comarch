@@ -7,7 +7,9 @@
 4/10/22  18:00-20:30 (2.5hrs) เพิ่มส่วนสำหรับแสดงผลในsimulator, แก้ไขโปรแกรมส่วนassemblerและ simulator
 5/10/22  03:00-04:30 (1.5hrs) แก้ไขassembler
          21:00-21:30 (0.5hr) แก้ไขassemblerส่วนbeq
-6/10/22  15:00-15:30 (0.5hr) แก้ไขassembler ,เพิ่มส่วนsimulator
+6/10/22  15:00-15:30 (0.5hr) ตรวจเช็ค assembler (100%), เพิ่มส่วนsimulator
 11/10/22 2:00-5:30   (3.5hrs)  แก้ไขsimulator, Enable to simulate an example correctly
-         14:00-18:00 (4hrs)  แก้ไขassemblerและsimulator
-         23:30-02:30 (3hrs)  แก้ไขassemblerและsimulator
+         14:00-18:00 (4hrs)  ตรวจเช็ค assemblerและupdate simulator (100%)
+         23:30-02:30 (3hrs)  ตรวจสอบ assemblerและsimulator
+19/10/22 18:00-21:00 (3hrs)  ตรวจสอบassemblerและsimulator
+20/10/22 19:00-22:00 (3hrs)  rewrite pseudo code ของassembler
