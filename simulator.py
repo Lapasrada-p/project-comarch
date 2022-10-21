@@ -177,6 +177,7 @@ while( pc < numMemory):
     # Halt
     elif opcode == '110':
         # print("halt")
+        pc+=1
         break
 
     # Noop 
@@ -192,7 +193,6 @@ while( pc < numMemory):
 w.write('machine halted\n')
 w.write(f'total of {count+1} instructions executed\n')
 w.write('final state of machine:\n')
-w.write('\n')
 
 #For printing final state of machine
 printState()
